@@ -28,7 +28,7 @@ const CampaignPage = () => {
     adsList: [],
   });
 
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChangeTab = (__event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 

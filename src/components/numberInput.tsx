@@ -50,7 +50,7 @@ export default function CustomNumberInput({
       aria-label="Demo number input"
       value={value}
       error={true}
-      onChange={(event, val) => handleChangeAdsQuantity(numberId, val)}
+      onChange={(__event, val) => handleChangeAdsQuantity(numberId, val)}
       style={{ borderColor: isError ? "red" : "" }}
     />
   );
