@@ -94,7 +94,7 @@ const DetailCampaignPage = ({
             }, 0);
 
             return (
-              <Paper>
+              <Paper key={item.id}>
                 <Card
                   onClick={() => {
                     setCurrentSubCampaignIndex(index);

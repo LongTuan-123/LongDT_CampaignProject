@@ -92,7 +92,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             );
           else
             return (
-              <TableCell align="center">
+              <TableCell align="center" key={headCell.id}>
                 <Button
                   onClick={handleCreateAds}
                   variant="outlined"
@@ -235,19 +235,17 @@ export default function AdsTable({
     idToChange: string,
     adsQuantity: number | null
   ) => {
-    if (adsQuantity) {
-      const updatedSubCampaigns = [...data.subCampaigns];
-      const currentSubCampaign = updatedSubCampaigns[currentSubCampaignIndex];
-      const updatedAds = currentSubCampaign.ads.map((ad) =>
-        ad.id === idToChange ? { ...ad, quantity: adsQuantity } : ad
-      );
-      currentSubCampaign.ads = updatedAds;
+    const updatedSubCampaigns = [...data.subCampaigns];
+    const currentSubCampaign = updatedSubCampaigns[currentSubCampaignIndex];
+    const updatedAds = currentSubCampaign.ads.map((ad) =>
+      ad.id === idToChange ? { ...ad, quantity: adsQuantity ?? 0 } : ad
+    );
+    currentSubCampaign.ads = updatedAds;
 
-      setData((prevData) => ({
-        ...prevData,
-        subCampaigns: updatedSubCampaigns,
-      }));
-    }
+    setData((prevData) => ({
+      ...prevData,
+      subCampaigns: updatedSubCampaigns,
+    }));
   };
 
   const handleDeleteMultipleAds = () => {
@@ -289,7 +287,6 @@ export default function AdsTable({
     return selected.indexOf(id) !== -1;
   };
 
-  console.log(errorList);
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -342,7 +339,10 @@ export default function AdsTable({
                           id="description"
                           variant="standard"
                           required
-                          error={errorList.adsList.includes(row.id)}
+                          error={
+                            errorList.adsList.includes(row.id) &&
+                            row.adsName === ""
+                          }
                           value={row.adsName}
                           sx={{ flex: 6 }}
                           onChange={(e) =>
@@ -354,7 +354,10 @@ export default function AdsTable({
                         <CustomNumberInput
                           value={row.quantity}
                           numberId={row.id}
-                          isError={errorList.adsList.includes(row.id)}
+                          isError={
+                            errorList.adsList.includes(row.id) &&
+                            row.quantity < 1
+                          }
                           handleChangeAdsQuantity={handleChangeAdsQuantity}
                         ></CustomNumberInput>
                       </TableCell>

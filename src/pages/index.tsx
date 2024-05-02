@@ -4,7 +4,6 @@ import Divider from "@mui/material/Divider";
 import InformationPage from "./informationPage";
 import DetailCampaignPage from "./detailCampaignPage";
 import { Campaign, ErrorList } from "../interface";
-import AlertComponent from "../components/alertComponent";
 import { generateUniqueId } from "../utils";
 
 const CampaignPage = () => {
@@ -18,12 +17,11 @@ const CampaignPage = () => {
       {
         name: "Chiến dịch con 1",
         status: true,
-        ads: [{ adsName: "Quảng cáo 1", quantity: 1, id: generateUniqueId() }],
+        ads: [{ adsName: "Quảng cáo 1", quantity: 0, id: generateUniqueId() }],
         id: generateUniqueId(),
       },
     ],
   });
-  const [isOpenAlert, setIsOpenAlert] = useState<boolean>(false);
   const [errorList, setErrorList] = useState<ErrorList>({
     informationName: false,
     subCampaignsList: [],
@@ -51,7 +49,6 @@ const CampaignPage = () => {
       }
       subCampaign.ads.forEach((ads) => {
         if (ads.adsName === "") {
-          // Check if adsName is empty
           adsList.push(ads.id);
         }
         if (ads.quantity < 1) {
@@ -72,12 +69,20 @@ const CampaignPage = () => {
       adsList,
     }));
 
-    setIsOpenAlert(true);
+    console.log(subCampaignsList, adsList);
+    if (
+      subCampaignsList.length !== 0 ||
+      adsList.length !== 0 ||
+      data.information.name === ""
+    ) {
+      alert("Vui lòng điền đúng và đầy đủ thông tin");
+    } else {
+      alert("Thành công");
+    }
   };
 
   return (
     <>
-      {isOpenAlert && <AlertComponent message="hello" severity="success" />}
       <Box
         display={"flex"}
         alignItems={"center"}
